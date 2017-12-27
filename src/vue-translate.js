@@ -1,6 +1,9 @@
 // We need a vue instance to handle reactivity
 var vm = null;
 
+// Import marked for running markdown on translated strings
+var marked = require('marked');
+
 // The plugin
 const VueTranslate = {
 
@@ -90,7 +93,12 @@ const VueTranslate = {
                 // An alias for the .$translate.text method
                 t(t) {
                     return this.$translate.text(t);
-                }
+                },
+
+                // An alias to run markdown on the resulting text
+                mt(t) {
+                    return marked(this.t(t));
+                },
             },
 
             directives: {
