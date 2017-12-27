@@ -70,12 +70,20 @@ const VueTranslate = {
                         this.$emit('locales:loaded', locales);
                     },
 
-                    text(t) {
+                    text(t, args) {
+                        window.console.log('Translate args', args);
+
                         if (!this.locale || !this.locale[t]) {
                             return t;
                         }
 
-                        return this.locale[t];
+                        let string = this.locale[t];
+
+                        for(key in args) {
+                            string = string.replace(new RegExp(`\{${key}\}`, 'ig'), args[key]);
+                        }
+
+                        return string;
                     }
                 }
             });
@@ -91,13 +99,13 @@ const VueTranslate = {
 
             methods: {
                 // An alias for the .$translate.text method
-                t(t) {
-                    return this.$translate.text(t);
+                t(t, args) {
+                    return this.$translate.text(t, args);
                 },
 
                 // An alias to run markdown on the resulting text
-                mt(t) {
-                    return marked(this.t(t));
+                mt(t, ...args) {
+                    return marked(this.t(t, ...args));
                 },
             },
 
