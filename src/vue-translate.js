@@ -71,8 +71,6 @@ const VueTranslate = {
                     },
 
                     text(t, args) {
-                        window.console.log('Translate args', args);
-
                         if (!this.locale || !this.locale[t]) {
                             return t;
                         }
